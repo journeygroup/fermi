@@ -1,19 +1,52 @@
-Fermi Framework
----------------
+## About The Fermi Framework
 
-Fermi is a [nuclear size](https://en.wikipedia.org/wiki/Femtometre) PSR-7 and PSR-15 compliant PHP framework intended to serve as glue for micro applications or apis. The goal of Fermi is to always be small enough, and transparent enough for novice developers to fully comprehend how it works, and expert developers to extend and modify it easily.
+[![Build Status](https://travis-ci.org/journeygroup/fermi.svg?branch=master)](https://travis-ci.org/journeygroup/fermi)
+[![Latest Stable Version](https://poser.pugx.org/journey/fermi/v/stable)](https://packagist.org/packages/journey/fermi)
+[![License](https://poser.pugx.org/journey/fermi/license)](https://packagist.org/packages/journey/fermi)
 
-To achieve this goal, Fermi differs substantially from other PHP frameworks in a few key areas. First, it it contains very little original code. In fact you could almost think it as a currated collection of excellent opensource packages. Second, Fermi utilizes no application container. Although it would be trivial to add a container (and might be encouraged depending on your application) it is beyond the scope of this project, and often they are unecessary for small applications.
+Fermi is a [nuclear size](https://en.wikipedia.org/wiki/Femtometre) PSR-7 and PSR-15 compliant PHP framework. The goal of Fermi is to always be small enough, and transparent enough for novice developers to fully comprehend how it works, and expert developers to extend and modify it easily.
 
-The third and most substantial difference between Fermi and other PHP frameworks is the open encouragement to modify core. Unlike other frameworks that are a collection of packages by the same author(s), all of the core Fermi code is along side your project rather than nestled in a `vendor` directory. The core framework is intended to serve more like scaffolding than a dependency. Thanks to the great standards being published by PHP-FIG it is no longer necessary for there to be a "framework specific" way of doing things.
+## Sure but why?
 
-Feel free to changes the default router ([FastRouter](https://github.com/nikic/FastRoute)), swap out the http implementation ([Diactoros](https://github.com/zendframework/zend-diactoros)), or even modify the core framework code. Your initial install is intended to have the same lifespan as your application and be trivial modify or even rewrite.
+Fermi differs substantially from other PHP frameworks:
 
-### Installation
+- Contains very little original code. In fact you could think of it as a currated collection of excellent packages.
+- b.y.o.c. - bring your own container ([or dont](https://www.tonymarston.net/php-mysql/dependency-injection-is-evil.html))
+- Hacking core is encouraged.
+
+That last point probably made you 😳. Fermi core is a collection of stateless static methods that sits right along side your project rather than hidden in the `vendor` directory. The framework is intended to serve more like scaffolding than an external dependency. Thanks to the great work of [PHP-FIG](http://www.php-fig.org/), we can rely on compliant packages instead of designing a new wheel.
+
+## Installation
 
 To create a new Fermi project, use composers `create-project` command:
 
-`composer create-project journey/fermi your-new-app`
+```sh
+composer create-project journey/fermi your-new-app
+```
+
+You can then point an apache virtual host the public directory, or run Fermi with PHP's built in server:
+
+```sh
+php -S 127.0.0.1:8080 -t public public/index.php
+```
+
+## Base package selection
+
+Fermi uses the following excellent opensource packages by default:
+
+Function              | Package 
+----------------------|--------
+Messages              | [zendframework/zend-diactoros](https://github.com/zendframework/zend-diactoros)
+Middleware Dispatcher | [mindplay/middleman](https://github.com/mindplay-dk/middleman)
+Router                | [nikic/fast-route](https://github.com/nikic/FastRoute)
+Templating            | [league/plates](https://github.com/thephpleague/plates)
+
+Feel free to swap these out with any package of your own packages.
+
+## License
+
+The Fermi framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
 
 
 
