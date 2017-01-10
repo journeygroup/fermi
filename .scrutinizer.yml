@@ -12,6 +12,6 @@ build:
           file: 'build/logs/clover.xml'
           format: 'php-clover'
 filter:
-  exclude_paths:
+  excluded_paths:
     - "tests/"
     - "app/"
