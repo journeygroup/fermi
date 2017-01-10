@@ -46,7 +46,7 @@ $dispatcher = new Dispatcher(Framework::stack());
 |
 */
 
-$response = $dispatcher->dispatch(ServerRequestFactory::fromGlobals());
+$response = $dispatcher->dispatch(Framework::requestFromGlobals());
 
 /*
 |--------------------------------------------------------------------------

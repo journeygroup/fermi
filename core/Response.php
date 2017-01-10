@@ -60,7 +60,7 @@ class Response
      */
     public static function error402(RequestInterface $request)
     {
-        return static::json(["message" => "Too Many Requests"])->withStatus(400);
+        return static::json(["message" => "Too Many Requests"])->withStatus(402);
     }
 
     /**

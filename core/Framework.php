@@ -6,9 +6,23 @@ use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use League\Plates\Engine;
 use Psr\Http\Message\RequestInterface;
+use Zend\Diactoros\ServerRequestFactory;
 
 class Framework
 {
+    /**
+     * Create a new request from the php globals environment.
+     *
+     * Note: If you want to use a different PSR-7 implementation this would be
+     * the proper place to replace the stock implementation of zend\diactoros.
+     *
+     * @return Psr\Http\Message\RequestInterface
+     */
+    public static function requestFromGlobals()
+    {
+        return ServerRequestFactory::fromGlobals();
+    }
+
     /**
      * Returns the full middleware stack.
      *
@@ -16,9 +30,7 @@ class Framework
      */
     public static function stack()
     {
-        static $middleware;
-        $middleware = $middleware ?: static::config('middleware');
-        return $middleware;
+        return static::config('middleware');
     }
 
     /**
@@ -55,10 +67,11 @@ class Framework
      *
      * @return FastRouter\simpleDispatcher
      */
-    public static function router(RequestInterface $request)
+    public static function router(RequestInterface $request, $path = null)
     {
-        $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) {
-            include __DIR__ . "/../app/routes.php";
+        $path = $path ?: __DIR__ . "/../app/routes.php";
+        $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) use ($path) {
+            include $path;
         });
         $match = $dispatcher->dispatch($request->getMethod(), $request->getUri()->getPath());
         return static::resolve($request, $match);
@@ -88,11 +101,18 @@ class Framework
      *
      * @return array
      */
-    public static function config($name)
+    public static function config($name, $dir = null)
     {
-        $location = __DIR__ . "/../config/" . $name . ".php";
-        $config = file_exists($location) ? include $location : [];
-        return is_array($config) ? $config : [];
+        $dir = $dir ?: __DIR__ . "/../config";
+        $location = rtrim($dir, "/") . "/" . ltrim($name, "/") . ".php";
+        if (!file_exists($location)) {
+            throw new \InvalidArgumentException('Requested configuration file does not exist: ' . $location);
+        }
+        $config = include $location;
+        if (!is_array($config)) {
+            throw new \InvalidArgumentException('Requested configuration file does not return an array: ' . $location);
+        }
+        return $config;
     }
 
     /**
@@ -104,7 +124,6 @@ class Framework
      */
     public static function render($view, $data)
     {
-        $config = static::config('app');
         $views = new Engine(__DIR__ . "/../views");
         return $views->render($view, $data);
     }

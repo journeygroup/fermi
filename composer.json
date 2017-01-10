@@ -25,7 +25,8 @@
         "mindplay/middleman": "^2.0",
         "psr/http-message": "^1.0",
         "nikic/fast-route": "^1.1",
-        "league/plates": "^3.3"
+        "league/plates": "^3.3",
+        "phpunit/phpunit": "^5.7"
     },
     "autoload": {
         "psr-4": {
