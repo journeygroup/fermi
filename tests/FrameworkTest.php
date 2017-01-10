@@ -7,6 +7,7 @@ use Fermi\Framework;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Tests\Mocks\MockMiddleware;
 use Zend\Diactoros\Request;
 
 class FrameworkTest extends TestCase
@@ -91,20 +92,6 @@ class FrameworkTest extends TestCase
      *
      * @return void
      */
-    public function testMiddlewareStrings()
-    {
-        $stack = Framework::middleware([
-            'This is a string',
-        ]);
-
-        $this->assertEquals(is_callable($stack[0]), true);
-    }
-
-    /**
-     * Test the middleware's use of the lazy loading when strings are provided.
-     *
-     * @return void
-     */
     public function testMiddlewareClosures()
     {
         $stack = Framework::middleware([
@@ -122,13 +109,18 @@ class FrameworkTest extends TestCase
      */
     public function testLazyWrapper()
     {
-        $lazy = Framework::lazy('stdClass');
-        $this->assertInstanceOf(Closure::class, $lazy);
+        $lazy = Framework::lazy(MockMiddleware::class);
+        $response = $lazy(Framework::requestFromGlobals(), function () {
+            // void
+        });
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertEquals($response->getBody(), 'expected output');
     }
 
     /**
      * Test the route dispatcher.
      *
+     * @covers Fermi\Framework::resolve
      * @return void
      */
     public function testRouteDispatcher()
@@ -155,6 +147,21 @@ class FrameworkTest extends TestCase
     }
 
     /**
+     * Test the dispatcher for 405 requests.
+     *
+     * @return void
+     */
+    public function testRouteDispatcher405()
+    {
+        $_SERVER['REQUEST_METHOD'] = "POST";
+        $request = Framework::requestFromGlobals();
+        $response = Framework::router($request, __DIR__ . "/config/testroutes.php");
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertEquals($response->getStatusCode(), 405);
+        $_SERVER['REQUEST_METHOD'] = "GET";
+    }
+
+    /**
      * Test the config ability to load by location.
      *
      * @return void
@@ -167,13 +174,24 @@ class FrameworkTest extends TestCase
     }
 
     /**
-     * Tests the configuration loader's exception throwing.
+     * Tests the configuration loader's exception throwing for missing files.
      *
      * @return void
      */
-    public function testConfigException()
+    public function testConfigFileException()
     {
         $this->expectException(\InvalidArgumentException::class);
         Framework::config('.this-file-does-not-exist');
+    }
+
+    /**
+     * Tests the configuration loader's exception throwing for non arrays.
+     *
+     * @return void
+     */
+    public function testConfigTypeException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Framework::config('badconfig', __DIR__ . "/config");
     }
 }

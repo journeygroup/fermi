@@ -118,6 +118,7 @@ class Framework
     /**
      * Render a given view with our template engine.
      *
+     * @codeCoverageIgnore
      * @param  string $view our view data.
      * @param  array  $data data to pass through to our template
      * @return array

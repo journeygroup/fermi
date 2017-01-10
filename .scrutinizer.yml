@@ -1,0 +1,17 @@
+build:
+  environment:
+    php:
+      version: 5.6.0
+      ini:
+        'date.timezone': 'America/New_York'
+  tests:
+    override:
+      -
+        command: 'phpunit'
+        coverage:
+          file: 'build/logs/clover.xml'
+          format: 'php-clover'
+filter:
+  exclude_paths:
+    - "tests/"
+    - "app/"

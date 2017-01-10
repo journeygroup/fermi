@@ -31,7 +31,8 @@
     "autoload": {
         "psr-4": {
             "Fermi\\": "core/",
-            "App\\": "app/"
+            "App\\": "app/",
+            "Tests\\": "tests/"
         }
     }
 }

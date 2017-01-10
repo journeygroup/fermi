@@ -4,6 +4,7 @@ namespace Fermi;
 
 use Psr\Http\Message\RequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
+use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\TextResponse;
 
 class Response
@@ -29,7 +30,7 @@ class Response
      */
     public static function json($data, $flags = 79)
     {
-        return new HtmlResponse(JsonResponse($data, 200, [], $flags));
+        return new JsonResponse($data, 200, [], $flags);
     }
 
     /**
@@ -50,17 +51,7 @@ class Response
      */
     public static function error400(RequestInterface $request)
     {
-        return static::string(["message" => "Bad Request"])->withStatus(400);
-    }
-
-    /**
-     * Respond with a 402 error message.
-     *
-     * @return Psr\Http\Message\ResponseInterface
-     */
-    public static function error402(RequestInterface $request)
-    {
-        return static::json(["message" => "Too Many Requests"])->withStatus(402);
+        return static::json(["message" => "Bad Request"])->withStatus(400);
     }
 
     /**
@@ -91,5 +82,15 @@ class Response
     public static function error405(RequestInterface $request)
     {
         return static::string("Method " . $request->getMethod() . " not allowed")->withStatus(405);
+    }
+
+    /**
+     * Respond with a 429 error message.
+     *
+     * @return Psr\Http\Message\ResponseInterface
+     */
+    public static function error429(RequestInterface $request)
+    {
+        return static::json(["message" => "Too Many Requests"])->withStatus(429);
     }
 }

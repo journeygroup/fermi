@@ -10,7 +10,7 @@ Fermi is a [nuclear size](https://en.wikipedia.org/wiki/Femtometre) PSR-7 and PS
 
 Fermi differs substantially from other PHP frameworks:
 
-- Contains very little original code. In fact you could think of it as a currated collection of excellent packages.
+- Contains very little original code. In fact you could think of it as a curated collection of excellent packages.
 - b.y.o.c. - bring your own container ([or dont](https://www.tonymarston.net/php-mysql/dependency-injection-is-evil.html))
 - Hacking core is encouraged.
 
