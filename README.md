@@ -1,6 +1,8 @@
 ## About The Fermi Framework
 
 [![Build Status](https://travis-ci.org/journeygroup/fermi.svg?branch=master)](https://travis-ci.org/journeygroup/fermi)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/journeygroup/fermi/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/journeygroup/fermi/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/journeygroup/fermi/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/journeygroup/fermi/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/journey/fermi/v/stable)](https://packagist.org/packages/journey/fermi)
 [![License](https://poser.pugx.org/journey/fermi/license)](https://packagist.org/packages/journey/fermi)
 

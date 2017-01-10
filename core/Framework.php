@@ -16,7 +16,7 @@ class Framework
      * Note: If you want to use a different PSR-7 implementation this would be
      * the proper place to replace the stock implementation of zend\diactoros.
      *
-     * @return Psr\Http\Message\RequestInterface
+     * @return \Psr\Http\Message\RequestInterface
      */
     public static function requestFromGlobals()
     {
@@ -81,7 +81,7 @@ class Framework
      * Resolve an HTTP request match.
      *
      * @param  array  $match Route match. When using fast router will be array.
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function resolve(RequestInterface $request, $match)
     {
@@ -90,7 +90,7 @@ class Framework
                 array_unshift($match[2], $request);
                 return call_user_func_array($match[1], $match[2]);
             case Dispatcher::METHOD_NOT_ALLOWED:
-                return Response::error405($request, $match[1]);
+                return Response::error405($request);
             default:
                 return Response::error404($request);
         }

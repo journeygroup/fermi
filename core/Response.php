@@ -14,7 +14,7 @@ class Response
      *
      * @param  string $view name of the view to load
      * @param  array  $data data to expose to the view
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function view($view, $data)
     {
@@ -26,7 +26,7 @@ class Response
      *
      * @param  string $view name of the view to load
      * @param  array  $data data to expose to the view
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function json($data, $flags = 79)
     {
@@ -37,7 +37,7 @@ class Response
      * Create a new basic string response.
      *
      * @param  string $name name of the view to load
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function string($string)
     {
@@ -47,7 +47,7 @@ class Response
     /**
      * Respond with a 400 bad request error json message.
      *
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function error400(RequestInterface $request)
     {
@@ -57,7 +57,7 @@ class Response
     /**
      * Respond with a 403 error message.
      *
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function error403(RequestInterface $request)
     {
@@ -67,7 +67,7 @@ class Response
     /**
      * Respond with a 404 error message.
      *
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function error404(RequestInterface $request)
     {
@@ -77,7 +77,7 @@ class Response
     /**
      * Respond with a 405 error message.
      *
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function error405(RequestInterface $request)
     {
@@ -87,7 +87,7 @@ class Response
     /**
      * Respond with a 429 error message.
      *
-     * @return Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public static function error429(RequestInterface $request)
     {
