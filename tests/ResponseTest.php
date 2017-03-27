@@ -4,6 +4,7 @@ namespace Tests;
 
 use Fermi\Framework;
 use Fermi\Response;
+use League\Plates\Engine;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
@@ -22,6 +23,21 @@ class ResponseTest extends TestCase
     public function setUp()
     {
         $this->request = Framework::requestFromGlobals();
+    }
+
+    /**
+     * Test the render view.
+     *
+     * @return void
+     */
+    public function testView()
+    {
+        $engine = new Engine(__DIR__ . "/views");
+        $response = Response::view('test', [
+            'value' => 'success'
+        ], $engine);
+        $this->assertInstanceOf(ResponseInterface::class, $response);
+        $this->assertEquals('<div class="example-class">success</div>', $response->getBody());
     }
 
     /**

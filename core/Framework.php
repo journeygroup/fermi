@@ -4,6 +4,7 @@ namespace Fermi;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use League\Plates\Engine;
 use Psr\Http\Message\RequestInterface;
 use Zend\Diactoros\ServerRequestFactory;
@@ -56,9 +57,13 @@ class Framework
      */
     public static function lazy($className)
     {
-        return function (RequestInterface $request, callable $next) use ($className) {
+        return function (RequestInterface $request, $next) use ($className) {
             $class = new $className();
-            return $class($request, $next);
+            if ($class instanceof MiddlewareInterface) {
+                return $class->process($request, $next);
+            } else {
+                return $class($request, $next);
+            }
         };
     }
 
@@ -116,16 +121,25 @@ class Framework
     }
 
     /**
+     * Get the rendering engine.
+     *
+     * @return void
+     */
+    public static function engine()
+    {
+        return new Engine(__DIR__ . "/../views");
+    }
+
+    /**
      * Render a given view with our template engine.
      *
-     * @codeCoverageIgnore
      * @param  string $view our view data.
      * @param  array  $data data to pass through to our template
      * @return array
      */
-    public static function render($view, $data)
+    public static function render($view, $data, $engine = false)
     {
-        $views = new Engine(__DIR__ . "/../views");
-        return $views->render($view, $data);
+        $engine = ($engine instanceof Engine) ? $engine : static::engine();
+        return $engine->render($view, $data);
     }
 }

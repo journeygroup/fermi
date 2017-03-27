@@ -16,9 +16,9 @@ class Response
      * @param  array  $data data to expose to the view
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public static function view($view, $data)
+    public static function view($view, $data, $engine = false)
     {
-        return new HtmlResponse(Framework::render($view, $data));
+        return new HtmlResponse(Framework::render($view, $data, $engine));
     }
 
     /**

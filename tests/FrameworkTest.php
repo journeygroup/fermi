@@ -4,6 +4,7 @@ namespace Tests;
 
 use Closure;
 use Fermi\Framework;
+use League\Plates\Engine;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -184,6 +185,12 @@ class FrameworkTest extends TestCase
         Framework::config('.this-file-does-not-exist');
     }
 
+    public function testEngine()
+    {
+        $engine = Framework::engine();
+        $this->assertInstanceOf(Engine::class, $engine);
+    }
+
     /**
      * Tests the configuration loader's exception throwing for non arrays.
      *
@@ -193,5 +200,19 @@ class FrameworkTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         Framework::config('badconfig', __DIR__ . "/config");
+    }
+
+    /**
+     * Test the render method.
+     *
+     * @return void
+     */
+    public function testRender()
+    {
+        $engine = new Engine(__DIR__ . "/views");
+        $home = Framework::render('test', [
+            'value' => '"fmwfT?7wrqmi>QRaNX4"'
+        ], $engine);
+        $this->assertEquals('<div class="example-class">&quot;fmwfT?7wrqmi&gt;QRaNX4&quot;</div>', $home);
     }
 }
