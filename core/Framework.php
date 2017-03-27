@@ -6,7 +6,7 @@ use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use League\Plates\Engine;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\ServerRequestFactory;
 
 class Framework
@@ -17,7 +17,7 @@ class Framework
      * Note: If you want to use a different PSR-7 implementation this would be
      * the proper place to replace the stock implementation of zend\diactoros.
      *
-     * @return \Psr\Http\Message\RequestInterface
+     * @return \Psr\Http\Message\ServerRequestInterface
      */
     public static function requestFromGlobals()
     {
@@ -57,7 +57,7 @@ class Framework
      */
     public static function lazy($className)
     {
-        return function (RequestInterface $request, $next) use ($className) {
+        return function (ServerRequestInterface $request, $next) use ($className) {
             $class = new $className();
             if ($class instanceof MiddlewareInterface) {
                 return $class->process($request, $next);
@@ -72,7 +72,7 @@ class Framework
      *
      * @return FastRouter\simpleDispatcher
      */
-    public static function router(RequestInterface $request, $path = null)
+    public static function router(ServerRequestInterface $request, $path = null)
     {
         $path = $path ?: __DIR__ . "/../app/routes.php";
         $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) use ($path) {
@@ -88,7 +88,7 @@ class Framework
      * @param  array  $match Route match. When using fast router will be array.
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public static function resolve(RequestInterface $request, $match)
+    public static function resolve(ServerRequestInterface $request, $match)
     {
         switch ($match[0]) {
             case Dispatcher::FOUND:
