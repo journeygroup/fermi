@@ -3,9 +3,10 @@
 namespace App\Middleware;
 
 use Fermi\Framework;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 class Router implements MiddlewareInterface
 {
@@ -16,7 +17,7 @@ class Router implements MiddlewareInterface
      * @param  callable $next    delegate next callable method.
      * @return Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return Framework::router($request);
     }

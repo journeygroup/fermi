@@ -4,7 +4,7 @@ namespace Fermi;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Interop\Http\Server\MiddlewareInterface;
 use League\Plates\Engine;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\ServerRequestFactory;
