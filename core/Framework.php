@@ -5,7 +5,9 @@ namespace Fermi;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use Interop\Http\Server\MiddlewareInterface;
+use Interop\Http\Server\RequestHandlerInterface;
 use League\Plates\Engine;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\ServerRequestFactory;
 
@@ -17,9 +19,9 @@ class Framework
      * Note: If you want to use a different PSR-7 implementation this would be
      * the proper place to replace the stock implementation of zend\diactoros.
      *
-     * @return \Psr\Http\Message\ServerRequestInterface
+     * @return Psr\Http\Message\ServerRequestInterface
      */
-    public static function requestFromGlobals()
+    public static function requestFromGlobals(): ServerRequestInterface
     {
         return ServerRequestFactory::fromGlobals();
     }
@@ -29,7 +31,7 @@ class Framework
      *
      * @return array
      */
-    public static function stack()
+    public static function stack(): array
     {
         return static::config('middleware');
     }
@@ -37,10 +39,10 @@ class Framework
     /**
      * Create a middleware stack that is resolvable by PSR-15.
      *
-     * @param  array  $stack array of callables or strings.
+     * @param  array $stack array of callables or strings.
      * @return array
      */
-    public static function middleware(array $stack)
+    public static function middleware(array $stack): array
     {
         return array_map(function ($callable) {
             $callable = is_string($callable) ? static::lazy($callable) : $callable;
@@ -52,27 +54,29 @@ class Framework
      * Returns a closure which, when called, will create an instance of the
      * class passed to it and then call __invoke() with middleware arguments.
      *
-     * @param  string $className fully qualified name of a class
+     * @param  string   $className fully qualified name of a class
      * @return callable
      */
-    public static function lazy($className)
+    public static function lazy(string $className): callable
     {
-        return function (ServerRequestInterface $request, $next) use ($className) {
+        return function (ServerRequestInterface $request, RequestHandlerInterface $handler) use ($className): ResponseInterface {
             $class = new $className();
             if ($class instanceof MiddlewareInterface) {
-                return $class->process($request, $next);
+                return $class->process($request, $handler);
             } else {
-                return $class($request, $next);
+                return $class($request, $handler);
             }
         };
     }
 
     /**
-     * Create a new FastRouter\simpleDispatcher and collect the routes.
+     * Use FastRouter\simpleDispatcher to collect the routes into a FastRoute\Dispatcher.
      *
-     * @return FastRouter\simpleDispatcher
+     * @param  Psr\Http\Message\ServerRequestInterface $request
+     * @param  string                                  $path
+     * @return Psr\Http\Message\ResponseInterface
      */
-    public static function router(ServerRequestInterface $request, $path = null)
+    public static function router(ServerRequestInterface $request, string $path = null): ResponseInterface
     {
         $path = $path ?: __DIR__ . "/../app/routes.php";
         $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) use ($path) {
@@ -85,10 +89,11 @@ class Framework
     /**
      * Resolve an HTTP request match.
      *
-     * @param  array  $match Route match. When using fast router will be array.
-     * @return \Psr\Http\Message\ResponseInterface
+     * @param  Psr\Http\Message\ServerRequestInterface $request
+     * @param  array                                   $match Route match. When using fast router will be array.
+     * @return Psr\Http\Message\ResponseInterface
      */
-    public static function resolve(ServerRequestInterface $request, $match)
+    public static function resolve(ServerRequestInterface $request, array $match): ResponseInterface
     {
         switch ($match[0]) {
             case Dispatcher::FOUND:
@@ -104,9 +109,11 @@ class Framework
     /**
      * Load a given configuration file or array.
      *
+     * @param  string $name config file name
+     * @param  string $dir  path to directory storing the config file
      * @return array
      */
-    public static function config($name, $dir = null)
+    public static function config(string $name, string $dir = null): array
     {
         $dir = $dir ?: __DIR__ . "/../config";
         $location = rtrim($dir, "/") . "/" . ltrim($name, "/") . ".php";
@@ -123,9 +130,9 @@ class Framework
     /**
      * Get the rendering engine.
      *
-     * @return void
+     * @return League\Plates\Engine
      */
-    public static function engine()
+    public static function engine(): Engine
     {
         return new Engine(__DIR__ . "/../views");
     }
@@ -133,11 +140,12 @@ class Framework
     /**
      * Render a given view with our template engine.
      *
-     * @param  string $view our view data.
-     * @param  array  $data data to pass through to our template
-     * @return array
+     * @param  string $view   our view data.
+     * @param  array  $data   data to pass through to our template
+     * @param  Engine $engine alternative rendering engine
+     * @return string
      */
-    public static function render($view, $data, $engine = false)
+    public static function render(string $view, array $data, Engine $engine = null): string
     {
         $engine = ($engine instanceof Engine) ? $engine : static::engine();
         return $engine->render($view, $data);
