@@ -53,7 +53,7 @@ class Response
      *
      * @return Psr\Http\Message\ResponseInterface
      */
-    public static function error400(RequestInterface $request): ResponseInterface
+    public static function error400(ServerRequestInterface $request): ResponseInterface
     {
         return static::json(["message" => "Bad Request"])->withStatus(400);
     }
@@ -63,7 +63,7 @@ class Response
      *
      * @return Psr\Http\Message\ResponseInterface
      */
-    public static function error403(RequestInterface $request): ResponseInterface
+    public static function error403(ServerRequestInterface $request): ResponseInterface
     {
         return static::string("Not Authorized")->withStatus(403);
     }
@@ -73,7 +73,7 @@ class Response
      *
      * @return Psr\Http\Message\ResponseInterface
      */
-    public static function error404(RequestInterface $request): ResponseInterface
+    public static function error404(ServerRequestInterface $request): ResponseInterface
     {
         return static::string($request->getUri() . " was not found.")->withStatus(404);
     }
@@ -83,7 +83,7 @@ class Response
      *
      * @return Psr\Http\Message\ResponseInterface
      */
-    public static function error405(RequestInterface $request): ResponseInterface
+    public static function error405(ServerRequestInterface $request): ResponseInterface
     {
         return static::string("Method " . $request->getMethod() . " not allowed")->withStatus(405);
     }
@@ -93,7 +93,7 @@ class Response
      *
      * @return Psr\Http\Message\ResponseInterface
      */
-    public static function error429(RequestInterface $request): ResponseInterface
+    public static function error429(ServerRequestInterface $request): ResponseInterface
     {
         return static::json(["message" => "Too Many Requests"])->withStatus(429);
     }
