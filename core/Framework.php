@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Fermi;
 
 use FastRoute\Dispatcher;
@@ -56,7 +54,7 @@ class Framework
      * Returns a closure which, when called, will create an instance of the
      * class passed to it and then call __invoke() with middleware arguments.
      *
-     * @param  string   $className fully qualified name of a class
+     * @param  string   $className fully-qualified name of a class
      * @return callable
      */
     public static function lazy(string $className): callable
@@ -142,7 +140,7 @@ class Framework
     /**
      * Render a given view with our template engine.
      *
-     * @param  string $view   our view data.
+     * @param  string $view   name of the view
      * @param  array  $data   data to pass through to our template
      * @param  Engine $engine alternative rendering engine
      * @return string
