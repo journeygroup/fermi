@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.1",
         "zendframework/zend-diactoros": "^1.6",
         "mindplay/middleman": "^3.0",
         "psr/http-message": "^1.0",
