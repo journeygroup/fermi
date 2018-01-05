@@ -6,7 +6,7 @@
 [![Latest Stable Version](https://poser.pugx.org/journey/fermi/v/stable)](https://packagist.org/packages/journey/fermi)
 [![License](https://poser.pugx.org/journey/fermi/license)](https://packagist.org/packages/journey/fermi)
 
-Fermi is a [nuclear-sized](https://en.wikipedia.org/wiki/Femtometre) PSR-7 and PSR-15 compliant PHP framework. The goal of Fermi is to always be small enough, and transparent enough for novice developers to fully comprehend how it works, and expert developers to extend and modify it easily.
+Fermi is a [nuclear-sized](https://en.wikipedia.org/wiki/Femtometre) PSR-7 and PSR-15 compliant PHP framework. Its goal is to be small and transparent so that novice developers can fully comprehend how it works, but powerful and extensible so that expert developers can get real value from it.
 
 
 ## Sure but why?
