@@ -1,8 +1,8 @@
 <?php
 
 use Fermi\Framework;
-use Zend\Diactoros\ServerRequestFactory;
 use mindplay\middleman\Dispatcher;
+use Zend\Diactoros\ServerRequestFactory;
 
 /**
  * Fermi - A nuclear sized PSR-7 and PSR-15 compliant PHP framework.
