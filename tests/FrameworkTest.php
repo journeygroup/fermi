@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Tests\Mocks\MockMiddleware;
+use Tests\Mocks\MockRequestHandler;
 use Zend\Diactoros\Request;
 
 class FrameworkTest extends TestCase
@@ -111,9 +112,7 @@ class FrameworkTest extends TestCase
     public function testLazyWrapper()
     {
         $lazy = Framework::lazy(MockMiddleware::class);
-        $response = $lazy(Framework::requestFromGlobals(), function () {
-            // void
-        });
+        $response = $lazy(Framework::requestFromGlobals(), new MockRequestHandler());
         $this->assertInstanceOf(ResponseInterface::class, $response);
         $this->assertEquals($response->getBody(), 'expected output');
     }
