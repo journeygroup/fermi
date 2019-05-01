@@ -3,9 +3,9 @@
 namespace Tests\Mocks;
 
 use Fermi\Response;
-use Interop\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * An HTTP request handler process a HTTP request and produces an HTTP response.

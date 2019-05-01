@@ -4,10 +4,10 @@ namespace Fermi;
 
 use League\Plates\Engine;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\TextResponse;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Response
 {
@@ -39,8 +39,13 @@ class Response
     /**
      * Create a new basic string response.
      *
+<<<<<<< Updated upstream
      * @param  string $string string to respond
      * @return Psr\Http\Message\ResponseInterface
+=======
+     * @param  string $string name of the view to load
+     * @return \Psr\Http\Message\ResponseInterface
+>>>>>>> Stashed changes
      */
     public static function string(string $string): ResponseInterface
     {
