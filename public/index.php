@@ -1,14 +1,14 @@
 <?php
 
+use Relay\Relay;
 use Fermi\Framework;
-use mindplay\middleman\Dispatcher;
 use Zend\Diactoros\ServerRequestFactory;
 
 /**
  * Fermi - A nuclear sized PSR-7 and PSR-15 compliant PHP framework.
  *
  * @package  Fermi
- * @author   Justin Schroeder <justins@journeygroup.com>
+ * @author   Justin Schroeder <justinschroeder@me.com>
  */
 
 /*
@@ -28,12 +28,12 @@ include __DIR__ . "/../vendor/autoload.php";
 |--------------------------------------------------------------------------
 |
 | Initializes a middleware dispatcher. Fermi currently uses the lovely
-| Middleman (mindplay/middleman) package, however any PSR-15 compliant
+| Relay (relay/relay) package, however any PSR-15 compliant
 | middleware dispatcher would be acceptable.
 |
 */
 
-$dispatcher = new Dispatcher(Framework::stack());
+$dispatcher = new Relay(Framework::stack());
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ $dispatcher = new Dispatcher(Framework::stack());
 |
 */
 
-$response = $dispatcher->dispatch(Framework::requestFromGlobals());
+$response = $dispatcher->handle(Framework::requestFromGlobals());
 
 /*
 |--------------------------------------------------------------------------

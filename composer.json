@@ -20,13 +20,15 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "zendframework/zend-diactoros": "^1.6",
-        "mindplay/middleman": "^3.0",
+        "php": ">=7.1",
+        "zendframework/zend-diactoros": "^1.3",
         "psr/http-message": "^1.0",
-        "nikic/fast-route": "^1.2",
+        "psr/http-server-middleware": "^1.0",
+        "psr/http-server-handler": "^1.0",
+        "nikic/fast-route": "^1.1",
         "league/plates": "^3.3",
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "^7.1",
+        "relay/relay": "^2.0"
     },
     "autoload": {
         "psr-4": {

@@ -3,13 +3,13 @@
 namespace Fermi;
 
 use FastRoute\Dispatcher;
-use FastRoute\RouteCollector;
-use Interop\Http\Server\MiddlewareInterface;
-use Interop\Http\Server\RequestHandlerInterface;
 use League\Plates\Engine;
+use FastRoute\RouteCollector;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\ServerRequestFactory;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Framework
 {
